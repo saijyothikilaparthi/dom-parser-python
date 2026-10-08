@@ -1,0 +1,57 @@
+Review plan.md against the project requirements we discussed.
+
+Do not implement any code.
+
+Correct plan.md so that it stays strictly within the required project scope.
+
+Important constraints:
+
+1. Required HTML support:
+   - opening tags
+   - closing tags
+   - text
+   - nested elements
+   - sibling elements
+   - double-quoted attributes
+   - whitespace between elements
+
+2. Do not add CSS selectors or extra query syntax.
+
+3. Phase 7 must implement exactly:
+   - --text
+   - --find-tag TAG
+   - --find-id ID
+   - --find-class CLASS
+
+4. Do not add comments, JavaScript, CSS, HTML entities, DOCTYPE, or self-closing/void tags as required features. They are out of scope or optional extensions.
+
+5. Phase 6 must handle exactly:
+   - unexpected closing tag
+   - wrong nesting
+   - unclosed tag
+
+6. Use the exact error messages required by the project.
+
+7. Do not add line/column error reporting unless it is necessary for the required behavior.
+
+8. Do not invent CSS-selector functionality.
+
+9. Do not expand attribute syntax beyond double-quoted values.
+
+10. Keep the DOM design open for us to decide during Phase 3. Do not assume a parent pointer or extra node types are required.
+
+11. Keep the development incremental:
+   Phase 1 → Read file
+   Phase 2 → Tokenize
+   Phase 3 → Build DOM
+   Phase 4 → Print tree
+   Phase 5 → Attributes
+   Phase 6 → Validation
+   Phase 7 → Queries
+   Phase 8 → Testing and refactoring
+
+12. Do not implement any code.
+
+13. Do not create or modify any file other than plan.md.
+
+Keep plan.md concise and practical.
