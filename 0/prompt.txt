@@ -1,0 +1,20 @@
+Create a file named plan.md for this project.
+The project is a Python command-line program that will eventually read a small subset of HTML, build a DOM tree in memory, and print the tree.
+Don't  write any implementation code yet.
+In plan.md, create a simple development plan with these phases:
+
+1. Read the HTML file
+2. Tokenize the HTML
+3. Design and build the DOM
+4. Print the DOM tree
+5. Parse and store attributes
+6. Validate malformed HTML
+7. Implement queries
+8. Add automated tests and refactor
+For each phase, include: Goal, What needs to be understood, What will be implemented, How it will be tested, Completion condition
+
+Also include sections for: Python project structure, Testing strategy, Git commit strategy, OpenCode usage, Entire usage
+
+Do not implement any parser code.
+Do not create files other than plan.md.
+Keep the plan simple and practical.
