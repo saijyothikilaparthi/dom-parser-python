@@ -14,6 +14,12 @@ def read_temp(tmp_path: Path, name: str, content: str) -> str:
     return str(path)
 
 
+def write_bytes(tmp_path: Path, name: str, content: bytes) -> str:
+    path = tmp_path / name
+    path.write_bytes(content)
+    return str(path)
+
+
 def test_prints_file_contents_unchanged(tmp_path, capsys):
     path = read_temp(tmp_path, "in.html", "<p>Hello</p>\n")
     assert main([path]) == 0
@@ -31,6 +37,27 @@ def test_preserves_interior_whitespace(tmp_path, capsys):
     path = read_temp(tmp_path, "in.html", content)
     assert main([path]) == 0
     assert capsys.readouterr().out == content
+
+
+def test_preserves_lf_line_endings(tmp_path, capsys):
+    content = b"<p>a</p>\n<p>b</p>\n"
+    path = write_bytes(tmp_path, "lf.html", content)
+    assert main([path]) == 0
+    assert capsys.readouterr().out == content.decode("utf-8")
+
+
+def test_preserves_crlf_line_endings(tmp_path, capsys):
+    content = b"<p>a</p>\r\n<p>b</p>\r\n"
+    path = write_bytes(tmp_path, "crlf.html", content)
+    assert main([path]) == 0
+    assert capsys.readouterr().out == content.decode("utf-8")
+
+
+def test_preserves_missing_final_newline(tmp_path, capsys):
+    content = b"<p>a</p>\r\n<p>b</p>"
+    path = write_bytes(tmp_path, "no-final-newline.html", content)
+    assert main([path]) == 0
+    assert capsys.readouterr().out == content.decode("utf-8")
 
 
 def test_empty_file_is_valid(tmp_path, capsys):

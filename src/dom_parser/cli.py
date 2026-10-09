@@ -9,7 +9,8 @@ USAGE = (
 
 def read_file(path: str) -> str | None:
     try:
-        return Path(path).read_text(encoding="utf-8")
+        with Path(path).open(encoding="utf-8", newline="") as handle:
+            return handle.read()
     except (OSError, UnicodeDecodeError):
         return None
 
