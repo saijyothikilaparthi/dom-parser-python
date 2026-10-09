@@ -31,3 +31,21 @@ def render(document: Document) -> str:
     lines = ["."]
     lines.extend(_render_children(document.children, ""))
     return "\n".join(lines) + "\n"
+
+
+def _walk_text(nodes: list[Node]) -> list[str]:
+    texts: list[str] = []
+    for node in nodes:
+        if isinstance(node, Text):
+            if node.content.strip() != "":
+                texts.append(node.content)
+        elif isinstance(node, Element):
+            texts.extend(_walk_text(node.children))
+    return texts
+
+
+def render_text(document: Document) -> str:
+    texts = _walk_text(document.children)
+    if not texts:
+        return ""
+    return "\n".join(texts) + "\n"

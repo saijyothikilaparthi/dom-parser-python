@@ -221,3 +221,95 @@ def test_tree_mode_stops_at_first_error(tmp_path, capsys):
     captured = capsys.readouterr()
     assert captured.err == "Unexpected closing tag: </section>\n"
     assert captured.out == ""
+
+
+def test_text_mode_prints_text_nodes_one_per_line(tmp_path, capsys):
+    path = read_temp(tmp_path, "in.html", "<div>\n  <p>One</p>\n  <p>Two</p>\n</div>\n")
+    assert main([path, "--text"]) == 0
+    captured = capsys.readouterr()
+    assert captured.out == "One\nTwo\n"
+    assert captured.err == ""
+
+
+def test_text_mode_no_text_prints_nothing(tmp_path, capsys):
+    path = read_temp(tmp_path, "in.html", "<div></div>")
+    assert main([path, "--text"]) == 0
+    captured = capsys.readouterr()
+    assert captured.out == ""
+    assert captured.err == ""
+
+
+def test_find_tag_mode_prints_matching_subtrees(tmp_path, capsys):
+    path = read_temp(tmp_path, "in.html", "<div><p>x</p><p>y</p></div>")
+    assert main([path, "--find-tag", "p"]) == 0
+    captured = capsys.readouterr()
+    assert captured.out == (
+        ".\n"
+        "├── p\n"
+        '│   └── "x"\n'
+        "└── p\n"
+        '    └── "y"\n'
+    )
+    assert captured.err == ""
+
+
+def test_find_id_mode_matches_exactly_and_renders_each(tmp_path, capsys):
+    path = read_temp(tmp_path, "in.html", '<div id="main"><p id="main">x</p></div>')
+    assert main([path, "--find-id", "main"]) == 0
+    captured = capsys.readouterr()
+    assert captured.out == (
+        ".\n"
+        '├── div [id="main"]\n'
+        '│   └── p [id="main"]\n'
+        '│       └── "x"\n'
+        '└── p [id="main"]\n'
+        '    └── "x"\n'
+    )
+    assert captured.err == ""
+
+
+def test_find_class_mode_matches_one_token_of_several(tmp_path, capsys):
+    path = read_temp(tmp_path, "in.html", '<p class="a b">x</p><p class="c">y</p>')
+    assert main([path, "--find-class", "a"]) == 0
+    captured = capsys.readouterr()
+    assert captured.out == '.\n└── p [class="a b"]\n    └── "x"\n'
+    assert captured.err == ""
+
+
+def test_find_class_mode_includes_nested_matches(tmp_path, capsys):
+    path = read_temp(tmp_path, "in.html", '<div class="a"><div class="a">x</div></div>')
+    assert main([path, "--find-class", "a"]) == 0
+    captured = capsys.readouterr()
+    assert captured.out == (
+        ".\n"
+        '├── div [class="a"]\n'
+        '│   └── div [class="a"]\n'
+        '│       └── "x"\n'
+        '└── div [class="a"]\n'
+        '    └── "x"\n'
+    )
+    assert captured.err == ""
+
+
+def test_find_no_match_prints_nothing_and_succeeds(tmp_path, capsys):
+    path = read_temp(tmp_path, "in.html", "<p>x</p>")
+    assert main([path, "--find-tag", "zzz"]) == 0
+    captured = capsys.readouterr()
+    assert captured.out == ""
+    assert captured.err == ""
+
+
+def test_find_tag_missing_value_prints_usage(tmp_path, capsys):
+    path = read_temp(tmp_path, "in.html", "<p>x</p>")
+    assert main([path, "--find-tag"]) == 1
+    captured = capsys.readouterr()
+    assert captured.err == f"{USAGE}\n"
+    assert captured.out == ""
+
+
+def test_find_tag_invalid_html_reports_error(tmp_path, capsys):
+    path = read_temp(tmp_path, "in.html", "</span>")
+    assert main([path, "--find-tag", "div"]) == 1
+    captured = capsys.readouterr()
+    assert captured.err == "Unexpected closing tag: </span>\n"
+    assert captured.out == ""
