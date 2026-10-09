@@ -8,7 +8,7 @@ def build_tree(tokens: list[Token]) -> Document:
     stack: list[Document | Element] = [document]
     for token in tokens:
         if isinstance(token, StartTag):
-            element = Element(tag=token.name)
+            element = Element(tag=token.name, attributes=list(token.attributes))
             stack[-1].children.append(element)
             stack.append(element)
         elif isinstance(token, EndTag):

@@ -7,7 +7,10 @@ def _is_whitespace_text(node: Node) -> bool:
 
 def _label(node: Node) -> str:
     if isinstance(node, Element):
-        return node.tag
+        if not node.attributes:
+            return node.tag
+        rendered = ", ".join(f'{name}="{value}"' for name, value in node.attributes)
+        return f"{node.tag} [{rendered}]"
     return f'"{node.content}"'
 
 

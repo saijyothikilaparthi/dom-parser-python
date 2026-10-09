@@ -85,12 +85,32 @@ def test_source_order_preserved():
     ]
 
 
-def test_attributes_are_not_parsed_yet():
+def test_parses_double_quoted_attributes():
     assert tokenize('<div id="main">x</div>') == [
-        StartTag("div"),
+        StartTag("div", (("id", "main"),)),
         Text("x"),
         EndTag("div"),
     ]
+
+
+def test_parses_multiple_attributes_in_source_order():
+    assert tokenize('<a href="/x" class="btn" id="go">t</a>') == [
+        StartTag("a", (("href", "/x"), ("class", "btn"), ("id", "go"))),
+        Text("t"),
+        EndTag("a"),
+    ]
+
+
+def test_parses_empty_attribute_value():
+    assert tokenize('<input value="">') == [StartTag("input", (("value", ""),))]
+
+
+def test_attribute_without_value_is_ignored():
+    assert tokenize("<input disabled>") == [StartTag("input")]
+
+
+def test_unquoted_attribute_value_is_ignored():
+    assert tokenize("<input value=abc>") == [StartTag("input")]
 
 
 def test_crlf_inside_text_is_preserved():

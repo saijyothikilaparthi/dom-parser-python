@@ -63,6 +63,23 @@ def test_render_ignores_whitespace_only_text():
     )
 
 
+def test_render_element_with_single_attribute():
+    assert render(parse('<div id="main">x</div>')) == (
+        '.\n└── div [id="main"]\n    └── "x"\n'
+    )
+
+
+def test_render_element_with_multiple_attributes():
+    html = '<a href="/x" class="btn">go</a>'
+    assert render(parse(html)) == (
+        '.\n└── a [href="/x", class="btn"]\n    └── "go"\n'
+    )
+
+
+def test_render_element_with_empty_attribute_value():
+    assert render(parse('<input value="">')) == '.\n└── input [value=""]\n'
+
+
 def test_render_keeps_non_whitespace_text_at_top_level():
     html = "before<p>mid</p>after"
     assert render(parse(html)) == (

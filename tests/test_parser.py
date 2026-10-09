@@ -103,6 +103,21 @@ def test_attributes_default_to_empty():
     assert element.attributes == []
 
 
+def test_parses_attributes_onto_element_in_source_order():
+    (element,) = parse('<div id="main" class="box">x</div>').children
+    assert element.attributes == [("id", "main"), ("class", "box")]
+
+
+def test_element_without_attributes_has_empty_attributes():
+    (element,) = parse("<p>x</p>").children
+    assert element.attributes == []
+
+
+def test_attribute_with_empty_value_is_stored():
+    (element,) = parse('<input value="">').children
+    assert element.attributes == [("value", "")]
+
+
 def test_children_lists_are_independent():
     first = Element(tag="a")
     second = Element(tag="b")

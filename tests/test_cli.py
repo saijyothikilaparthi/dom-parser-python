@@ -183,3 +183,11 @@ def test_tree_mode_missing_file_reports_error(tmp_path, capsys):
     captured = capsys.readouterr()
     assert captured.err == f"Cannot open file: {path}\n"
     assert captured.out == ""
+
+
+def test_tree_mode_renders_attributes(tmp_path, capsys):
+    path = read_temp(tmp_path, "in.html", '<div id="main" class="box">x</div>')
+    assert main([path, "--tree"]) == 0
+    captured = capsys.readouterr()
+    assert captured.out == '.\n└── div [id="main", class="box"]\n    └── "x"\n'
+    assert captured.err == ""
