@@ -158,3 +158,28 @@ def test_tokens_mode_missing_file_reports_error(tmp_path, capsys):
     captured = capsys.readouterr()
     assert captured.err == f"Cannot open file: {path}\n"
     assert captured.out == ""
+
+
+def test_tree_mode_prints_tree(tmp_path, capsys):
+    path = read_temp(tmp_path, "in.html", "<html><body><p>Hello</p></body></html>")
+    assert main([path, "--tree"]) == 0
+    captured = capsys.readouterr()
+    assert captured.out == (
+        '.\n└── html\n    └── body\n        └── p\n            └── "Hello"\n'
+    )
+    assert captured.err == ""
+
+
+def test_tree_mode_requires_a_file(capsys):
+    assert main(["--tree"]) == 1
+    captured = capsys.readouterr()
+    assert captured.err == f"{USAGE}\n"
+    assert captured.out == ""
+
+
+def test_tree_mode_missing_file_reports_error(tmp_path, capsys):
+    path = str(tmp_path / "does-not-exist.html")
+    assert main([path, "--tree"]) == 1
+    captured = capsys.readouterr()
+    assert captured.err == f"Cannot open file: {path}\n"
+    assert captured.out == ""

@@ -1,6 +1,8 @@
 import sys
 from pathlib import Path
 
+from dom_parser.parser import parse
+from dom_parser.renderer import render
 from dom_parser.tokenizer import tokenize
 from dom_parser.tokens import EndTag, StartTag, Token
 
@@ -27,8 +29,9 @@ def format_token(token: Token) -> str:
 
 
 def main(argv: list[str]) -> int:
-    args = [arg for arg in argv if arg != "--tokens"]
-    inspect_tokens = len(args) != len(argv)
+    args = [arg for arg in argv if arg not in ("--tokens", "--tree")]
+    inspect_tokens = "--tokens" in argv
+    print_tree = "--tree" in argv
 
     if len(args) != 1 or args[0].startswith("-"):
         print(USAGE, file=sys.stderr)
@@ -38,6 +41,10 @@ def main(argv: list[str]) -> int:
     if contents is None:
         print(f"Cannot open file: {args[0]}", file=sys.stderr)
         return 1
+
+    if print_tree:
+        sys.stdout.write(render(parse(contents)))
+        return 0
 
     if inspect_tokens:
         for token in tokenize(contents):
