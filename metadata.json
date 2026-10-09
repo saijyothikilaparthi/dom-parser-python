@@ -1,0 +1,46 @@
+{
+  "cli_version": "0.11.4",
+  "checkpoint_id": "01M4FPAWX77VTQ5RA32MBS704P",
+  "strategy": "manual-commit",
+  "branch": "main",
+  "checkpoints_count": 1,
+  "files_touched": [
+    "README.md",
+    "pyproject.toml",
+    "samples/attributes.html",
+    "samples/page.html",
+    "src/dom_parser/cli.py",
+    "src/dom_parser/parser.py",
+    "src/dom_parser/query.py",
+    "tests/fixtures/attributes.html",
+    "tests/fixtures/deep.html",
+    "tests/fixtures/empty.html",
+    "tests/fixtures/nested.html",
+    "tests/fixtures/page.html",
+    "tests/fixtures/siblings.html",
+    "tests/fixtures/simple.html",
+    "tests/fixtures/text_only.html",
+    "tests/test_cli.py",
+    "tests/test_golden.py",
+    "tests/test_parser.py",
+    "tests/test_renderer.py",
+    "tests/test_tokenizer.py",
+    "uv.lock"
+  ],
+  "sessions": [
+    {
+      "metadata": "/0/metadata.json",
+      "transcript": "/0/full.jsonl",
+      "compact_transcript": "/0/transcript.jsonl",
+      "content_hash": "/0/content_hash.txt",
+      "prompt": "/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 156712,
+    "cache_creation_tokens": 0,
+    "cache_read_tokens": 3820032,
+    "output_tokens": 11398,
+    "api_call_count": 32
+  }
+}

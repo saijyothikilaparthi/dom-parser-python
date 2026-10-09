@@ -1,0 +1,5 @@
+Complete Phase 8 of my Python HTML parser assignment. Review the existing implementation and assignment requirements. Add any missing sample fixtures and golden-file tests, including simple, nested, attributes, siblings, empty, deep, page, unclosed, unexpected-close, and wrong-nesting cases. Test all CLI options, exact output, error messages, exit codes, empty and text-only files, missing arguments, and unknown options. Ensure one command runs all tests. Check type hints throughout the Python code, run Ruff and mypy, and fix any issues without changing required behavior. Update the README with setup instructions, CLI examples, testing commands, supported features, limitations, and a brief comparison of Git history and Entire context. Do not implement unsupported HTML features. Run all checks and report results. Do not commit or push.
+
+---
+
+Continue if you have next steps, or stop and ask for clarification if you are unsure how to proceed.
