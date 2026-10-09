@@ -1,7 +1,7 @@
 import sys
 from pathlib import Path
 
-from dom_parser.parser import parse
+from dom_parser.parser import ParseError, parse
 from dom_parser.renderer import render
 from dom_parser.tokenizer import tokenize
 from dom_parser.tokens import EndTag, StartTag, Token
@@ -43,7 +43,12 @@ def main(argv: list[str]) -> int:
         return 1
 
     if print_tree:
-        sys.stdout.write(render(parse(contents)))
+        try:
+            document = parse(contents)
+        except ParseError as error:
+            print(error, file=sys.stderr)
+            return 1
+        sys.stdout.write(render(document))
         return 0
 
     if inspect_tokens:

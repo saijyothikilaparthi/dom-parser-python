@@ -6,6 +6,7 @@ from dom_parser.cli import USAGE, main
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 SAMPLE = REPO_ROOT / "samples" / "sample.html"
+FIXTURES = REPO_ROOT / "tests" / "fixtures"
 
 
 def read_temp(tmp_path: Path, name: str, content: str) -> str:
@@ -191,3 +192,32 @@ def test_tree_mode_renders_attributes(tmp_path, capsys):
     captured = capsys.readouterr()
     assert captured.out == '.\n└── div [id="main", class="box"]\n    └── "x"\n'
     assert captured.err == ""
+
+
+def test_unclosed_fixture_reports_error(capsys):
+    assert main([str(FIXTURES / "unclosed.html"), "--tree"]) == 1
+    captured = capsys.readouterr()
+    assert captured.err == "Unclosed tag: <div>\n"
+    assert captured.out == ""
+
+
+def test_unexpected_close_fixture_reports_error(capsys):
+    assert main([str(FIXTURES / "unexpected_close.html"), "--tree"]) == 1
+    captured = capsys.readouterr()
+    assert captured.err == "Unexpected closing tag: </section>\n"
+    assert captured.out == ""
+
+
+def test_wrong_nesting_fixture_reports_error(capsys):
+    assert main([str(FIXTURES / "wrong_nesting.html"), "--tree"]) == 1
+    captured = capsys.readouterr()
+    assert captured.err == "Unexpected closing tag: </b> (expected </i>)\n"
+    assert captured.out == ""
+
+
+def test_tree_mode_stops_at_first_error(tmp_path, capsys):
+    path = read_temp(tmp_path, "in.html", "</section><div></div>")
+    assert main([path, "--tree"]) == 1
+    captured = capsys.readouterr()
+    assert captured.err == "Unexpected closing tag: </section>\n"
+    assert captured.out == ""

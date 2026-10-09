@@ -77,7 +77,7 @@ def test_render_element_with_multiple_attributes():
 
 
 def test_render_element_with_empty_attribute_value():
-    assert render(parse('<input value="">')) == '.\n└── input [value=""]\n'
+    assert render(parse('<input value=""></input>')) == '.\n└── input [value=""]\n'
 
 
 def test_render_keeps_non_whitespace_text_at_top_level():

@@ -114,7 +114,7 @@ def test_element_without_attributes_has_empty_attributes():
 
 
 def test_attribute_with_empty_value_is_stored():
-    (element,) = parse('<input value="">').children
+    (element,) = parse('<input value=""></input>').children
     assert element.attributes == [("value", "")]
 
 
