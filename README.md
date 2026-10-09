@@ -174,18 +174,58 @@ plan.md         # phase-by-phase development plan
 This repository uses two complementary records of its development:
 
 - **Git history** is the source of truth for *what changed*. It holds the
-  committed snapshots and messages (currently one commit per phase, from
-  "created python parser development plan" through "Implement Phase 7 HTML query
-  options"). Untracked working-tree files — such as the Phase 8 fixtures and
-  golden outputs — are not yet part of history until committed.
+  committed snapshots, messages, author/date, and file diffs. History runs from
+  the initial "first commit" through one commit per phase, ending with
+  "Complete Phase 8 testing and documentation" (`76d3bf0`). The working tree is
+  clean, and Git excludes `.venv`, caches, and Entire's local `metadata/`,
+  `logs/`, and `tmp/` (see `.gitignore` and `.entire/.gitignore`). Commit
+  messages also carry Entire trailers (`Entire-Session`, `Entire-Strategy`,
+  `Entire-Agent`, `Ephemeral-branch`) added by the `prepare-commit-msg` hook.
 
 - **Entire** captures the *context around* the changes. It is enabled in
-  `.entire/settings.json` (`checkpoints.primary.type = "git-refs"`) with the
-  OpenCode plugin, so as work proceeds it records session metadata (prompts,
-  logs) under `.entire/` and creates git-ref checkpoints aligned with commits.
-  Its own ignore rules (`.entire/.gitignore`) keep local artifacts like `tmp/`,
-  `logs/`, and `metadata/` out of Git.
+  `.entire/settings.json` (`checkpoints.primary.type = "git-refs"`,
+  `telemetry: true`) with the OpenCode plugin. Each checkpoint is a Git commit
+  referenced by `refs/entire/checkpoints/*` and contains the exact prompt
+  (`0/prompt.txt`), the full and condensed transcripts (`0/full.jsonl`,
+  `0/transcript.jsonl`), agent/model, token usage, session metrics and
+  attribution (`0/metadata.json`), plus a `0/content_hash.txt` and a top-level
+  `metadata.json` listing the touched files.
 
 In short: Git answers "what does the code look like and how did it change",
 while Entire answers "how and why was it developed, and how do I return to a
 known-good state" — the two are used together rather than as substitutes.
+
+### Checkpoints
+
+- 13 checkpoints exist, one for every commit from `2e591cb` (the development
+  plan) onward. The three initial `first commit` snapshots predate Entire and
+  have no checkpoint.
+- All 13 checkpoint refs are pushed to `origin` (verify with
+  `git ls-remote origin 'refs/entire/*'`).
+- Two OpenCode sessions were recorded: `ses_ee4ba3b5bffezdGnd6xeWXcOC7`
+  (planning and Phase 1) and `ses_ee0faa494ffeUe0QAEtItWrIcE` (Phases 1–8).
+
+| Commit | Message | Checkpoint | Session |
+|--------|---------|------------|---------|
+| `2e591cb` | created python parser development plan | `6fbf81c` | `ses_ee4b…` |
+| `4a15339` | plan modified | `870a5d2` | `ses_ee4b…` |
+| `f8987f1` | code checked | `c5c0354` | `ses_ee4b…` |
+| `2bfa8e9` | Fix invalid-argument exit status in Phase 1 CLI | `3054026` | `ses_ee0f…` |
+| `71cf026` | check the different test cases | `b361d4c` | `ses_ee0f…` |
+| `32d1ffd` | completed the phase 1 html file reading | `e324da3` | `ses_ee0f…` |
+| `ec7d72b` | Implement Phase 2 HTML tokenization | `27623ac` | `ses_ee0f…` |
+| `51ee6a1` | Implement Phase 3 DOM construction | `d4f729a` | `ses_ee0f…` |
+| `d09f738` | Implement Phase 4 recursive tree printing | `0381930` | `ses_ee0f…` |
+| `ca6ce71` | Implement Phase 5 HTML attribute parsing | `9dc467b` | `ses_ee0f…` |
+| `133d8ae` | Implement Phase 6 HTML validation | `999a41b` | `ses_ee0f…` |
+| `76a521c` | Implement Phase 7 HTML query options | `b146135` | `ses_ee0f…` |
+| `76d3bf0` | Complete Phase 8 testing and documentation | `3033c66` | `ses_ee0f…` |
+
+### Browsing the context
+
+```sh
+git log --all --oneline            # include checkpoint commits
+git for-each-ref refs/entire       # list checkpoint refs
+git show 3033c66:0/prompt.txt      # exact prompt for the Phase 8 checkpoint
+git show 3033c66:0/metadata.json   # attribution, token usage, session metrics
+```
