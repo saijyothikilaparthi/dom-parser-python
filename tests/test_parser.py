@@ -1,6 +1,7 @@
 from dom_parser.nodes import Document, Element, Text
 from dom_parser.parser import build_tree, parse
-from dom_parser.tokens import EndTag, StartTag, Text as TextToken
+from dom_parser.tokens import EndTag, StartTag
+from dom_parser.tokens import Text as TextToken
 
 
 def test_empty_document():

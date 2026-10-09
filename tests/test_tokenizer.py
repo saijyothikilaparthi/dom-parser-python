@@ -1,5 +1,5 @@
-from dom_parser.tokens import EndTag, StartTag, Text
 from dom_parser.tokenizer import tokenize
+from dom_parser.tokens import EndTag, StartTag, Text
 
 
 def test_empty_input_produces_no_tokens():

@@ -1,0 +1,4 @@
+OPEN p
+TEXT 'Hello'
+CLOSE p
+TEXT '\n'

@@ -21,23 +21,13 @@ def test_render_single_element():
 def test_render_nested_elements():
     html = "<html><body><p>Hello</p></body></html>"
     assert render(parse(html)) == (
-        ".\n"
-        "└── html\n"
-        "    └── body\n"
-        "        └── p\n"
-        '            └── "Hello"\n'
+        '.\n└── html\n    └── body\n        └── p\n            └── "Hello"\n'
     )
 
 
 def test_render_sibling_elements():
     html = "<h1>t</h1><p>b</p>"
-    assert render(parse(html)) == (
-        ".\n"
-        "├── h1\n"
-        '│   └── "t"\n'
-        "└── p\n"
-        '    └── "b"\n'
-    )
+    assert render(parse(html)) == ('.\n├── h1\n│   └── "t"\n└── p\n    └── "b"\n')
 
 
 def test_render_deep_tree():
@@ -54,13 +44,7 @@ def test_render_deep_tree():
 
 def test_render_ignores_whitespace_only_text():
     html = "<p>a</p>\n\n  <p>b</p>\n"
-    assert render(parse(html)) == (
-        ".\n"
-        "├── p\n"
-        '│   └── "a"\n'
-        "└── p\n"
-        '    └── "b"\n'
-    )
+    assert render(parse(html)) == ('.\n├── p\n│   └── "a"\n└── p\n    └── "b"\n')
 
 
 def test_render_element_with_single_attribute():
@@ -71,9 +55,7 @@ def test_render_element_with_single_attribute():
 
 def test_render_element_with_multiple_attributes():
     html = '<a href="/x" class="btn">go</a>'
-    assert render(parse(html)) == (
-        '.\n└── a [href="/x", class="btn"]\n    └── "go"\n'
-    )
+    assert render(parse(html)) == ('.\n└── a [href="/x", class="btn"]\n    └── "go"\n')
 
 
 def test_render_element_with_empty_attribute_value():
@@ -83,9 +65,5 @@ def test_render_element_with_empty_attribute_value():
 def test_render_keeps_non_whitespace_text_at_top_level():
     html = "before<p>mid</p>after"
     assert render(parse(html)) == (
-        ".\n"
-        '├── "before"\n'
-        "├── p\n"
-        '│   └── "mid"\n'
-        '└── "after"\n'
+        '.\n├── "before"\n├── p\n│   └── "mid"\n└── "after"\n'
     )

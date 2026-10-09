@@ -22,7 +22,9 @@ def find_by_id(document: Document, element_id: str) -> list[Element]:
     return [
         element
         for element in iter_elements(document)
-        if any(name == "id" and value == element_id for name, value in element.attributes)
+        if any(
+            name == "id" and value == element_id for name, value in element.attributes
+        )
     ]
 
 

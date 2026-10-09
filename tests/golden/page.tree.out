@@ -1,0 +1,17 @@
+.
+└── html
+    ├── head
+    │   └── title
+    │       └── "Sample"
+    └── body
+        ├── h1 [id="top", class="title"]
+        │   └── "Welcome"
+        ├── p [class="intro"]
+        │   ├── "Hello "
+        │   └── b
+        │       └── "world"
+        └── ul [class="list"]
+            ├── li [class="item"]
+            │   └── "One"
+            └── li [class="item"]
+                └── "Two"

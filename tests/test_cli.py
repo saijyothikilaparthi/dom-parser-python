@@ -112,6 +112,7 @@ def test_module_invocation_prints_sample():
         text=True,
         cwd=REPO_ROOT,
         env={"PYTHONPATH": str(REPO_ROOT / "src")},
+        check=False,
     )
     assert result.returncode == 0
     assert result.stdout == SAMPLE.read_text(encoding="utf-8")
@@ -125,6 +126,7 @@ def test_module_invocation_missing_file():
         text=True,
         cwd=REPO_ROOT,
         env={"PYTHONPATH": str(REPO_ROOT / "src")},
+        check=False,
     )
     assert result.returncode != 0
     assert f"Cannot open file: {missing}" in result.stderr
@@ -243,13 +245,7 @@ def test_find_tag_mode_prints_matching_subtrees(tmp_path, capsys):
     path = read_temp(tmp_path, "in.html", "<div><p>x</p><p>y</p></div>")
     assert main([path, "--find-tag", "p"]) == 0
     captured = capsys.readouterr()
-    assert captured.out == (
-        ".\n"
-        "├── p\n"
-        '│   └── "x"\n'
-        "└── p\n"
-        '    └── "y"\n'
-    )
+    assert captured.out == ('.\n├── p\n│   └── "x"\n└── p\n    └── "y"\n')
     assert captured.err == ""
 
 

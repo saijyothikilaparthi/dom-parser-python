@@ -30,7 +30,9 @@ def format_token(token: Token) -> str:
     return f"TEXT {token.content!r}"
 
 
-def parse_args(argv: list[str]) -> tuple[str | None, str | None, bool, list[str]] | None:
+def parse_args(
+    argv: list[str],
+) -> tuple[str | None, str | None, bool, list[str]] | None:
     mode: str | None = None
     query_value: str | None = None
     inspect_tokens = False
