@@ -1,0 +1,14 @@
+Improve only the existing Phase 1 CLI tests.
+
+Requirements:
+- Test that invalid arguments produce exit status exactly 1.
+- Test that missing-file errors produce exit status exactly 1.
+- Test that successful file reading produces exit status 0.
+- Assert the exact usage message on stderr for invalid arguments.
+- Assert the exact file-open error message on stderr for a missing file.
+- Assert stdout is empty for these error cases.
+- Keep the tests simple and consistent with the existing test structure.
+- Do not change application code in this step.
+- Do not implement any future phase.
+- Run the complete test suite and report the results.
+- Do not create commits or push anything.
