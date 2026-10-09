@@ -1,0 +1,14 @@
+Fix newline preservation in Phase 1 of the Python HTML parser.
+
+Requirements:
+- Preserve the original file contents exactly, including LF (\n) and CRLF (\r\n) line endings.
+- Preserve whether the original file ends with a newline.
+- Continue to support empty files.
+- Keep the required file-open error message and exit status unchanged.
+- Use a Python file-opening approach compatible with Python 3.12.
+- Add focused tests proving that LF and CRLF contents are reproduced exactly.
+- Add a test for a file with no final newline.
+- Do not modify unrelated behavior.
+- Do not implement tokenization, DOM construction, or any future phase.
+- Run the complete test suite and report the results.
+- Do not create commits or push anything.
