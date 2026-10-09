@@ -1,0 +1,29 @@
+We are working only on Phase 1 of the Python Mini HTML Parser.
+
+Review the current implementation without changing any files.
+
+Check these requirements:
+
+1. Accept one HTML file path from the command line.
+2. Read and print the file contents unchanged.
+3. Preserve all original whitespace and newlines, including whether the file ends with a newline.
+4. For a file-open failure, print exactly:
+   Cannot open file: FILE
+   to stderr and exit with status 1.
+5. For invalid command-line arguments, print exactly:
+   Usage: domparser FILE [--tree | --text | --find-tag TAG | --find-id ID | --find-class CLASS]
+   to stderr and exit with status 1.
+6. An empty file is valid input and should produce empty output with a successful exit.
+7. Do not implement tokenization, DOM construction, tree printing, attributes, validation, or queries yet.
+
+Inspect the implementation and existing tests.
+
+Run the relevant tests and identify any missing tests or incorrect behavior.
+
+Do not modify files yet. Report:
+- what already works
+- what fails or is missing
+- which files would need changes
+- the smallest meaningful implementation steps and suggested commit messages
+
+Do not create commits or push anything during this review.
