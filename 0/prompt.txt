@@ -1,0 +1,35 @@
+We are starting Phase 3: Build the DOM for my Python HTML parser.
+
+Current implementation:
+- Phase 1 reads HTML files and preserves their contents.
+- Phase 2 tokenizes HTML into StartTag, EndTag, and Text tokens.
+- The tokenizer preserves source order and whitespace-only text.
+- The temporary CLI option `--tokens` displays the tokens.
+- The existing test suite has 29 passing tests.
+
+For this task, use Plan mode only. Do not modify files or write implementation code yet.
+
+Analyze the existing project and propose a simple DOM design suitable for a beginner to understand and explain.
+
+Requirements:
+1. Compare at least two possible node designs and explain their trade-offs.
+2. Recommend a design for Python using type hints.
+3. Support element nodes and text nodes.
+4. Element nodes must store their tag name, ordered attributes for future Phase 5, and child nodes.
+5. Support nested elements, sibling elements, text between elements, multiple top-level elements, and an empty document.
+6. Explain how the parser will process StartTag, EndTag, and Text tokens using a stack.
+7. Explain how parent-child relationships will be represented.
+8. Explain how whitespace-only text will be handled: preserve it in the DOM for now, because Phase 4 needs to follow the assignment's tree-printing rules.
+9. Keep the design compatible with future validation in Phase 6 and queries in Phase 7.
+10. Do not implement attributes, validation, tree printing, or query behavior yet.
+11. Identify the files that would need to change and the tests we should write.
+
+Explain the design with a small tree diagram for this example:
+
+<html>
+  <body>
+    <p>Hello</p>
+  </body>
+</html>
+
+Finish with your recommendation and a step-by-step implementation plan. Do not commit or push. \
