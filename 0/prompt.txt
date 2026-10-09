@@ -1,0 +1,26 @@
+We are starting Phase 1 of the Python HTML DOM parser.
+
+First, explain the Phase 1 requirement in your own words.
+
+The goal is only to:
+1. Accept an HTML file path from the command line.
+2. Open and read the file.
+3. Print the file contents unchanged.
+4. Report the required error when the file cannot be opened.
+5. Handle incorrect command-line arguments with the required usage message.
+
+Do not implement anything yet.
+
+Do not tokenize HTML.
+Do not build a DOM.
+Do not parse tags or attributes.
+Do not add queries.
+Do not implement later phases.
+
+Inspect the current repository and tell me:
+- what files currently exist,
+- which files Phase 1 actually needs,
+- what design you recommend,
+- how you would test Phase 1.
+
+Keep the answer simple and focused on Phase 1.
