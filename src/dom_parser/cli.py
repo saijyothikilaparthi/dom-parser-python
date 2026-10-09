@@ -1,6 +1,9 @@
 import sys
 from pathlib import Path
 
+from dom_parser.tokenizer import tokenize
+from dom_parser.tokens import EndTag, StartTag, Token
+
 USAGE = (
     "Usage: domparser FILE [--tree | --text | --find-tag TAG "
     "| --find-id ID | --find-class CLASS]"
@@ -15,15 +18,31 @@ def read_file(path: str) -> str | None:
         return None
 
 
+def format_token(token: Token) -> str:
+    if isinstance(token, StartTag):
+        return f"OPEN {token.name}"
+    if isinstance(token, EndTag):
+        return f"CLOSE {token.name}"
+    return f"TEXT {token.content!r}"
+
+
 def main(argv: list[str]) -> int:
-    if len(argv) != 1 or argv[0].startswith("-"):
+    args = [arg for arg in argv if arg != "--tokens"]
+    inspect_tokens = len(args) != len(argv)
+
+    if len(args) != 1 or args[0].startswith("-"):
         print(USAGE, file=sys.stderr)
         return 1
 
-    contents = read_file(argv[0])
+    contents = read_file(args[0])
     if contents is None:
-        print(f"Cannot open file: {argv[0]}", file=sys.stderr)
+        print(f"Cannot open file: {args[0]}", file=sys.stderr)
         return 1
+
+    if inspect_tokens:
+        for token in tokenize(contents):
+            print(format_token(token))
+        return 0
 
     sys.stdout.write(contents)
     return 0

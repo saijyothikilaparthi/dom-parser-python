@@ -127,3 +127,34 @@ def test_module_invocation_missing_file():
     )
     assert result.returncode != 0
     assert f"Cannot open file: {missing}" in result.stderr
+
+
+def test_tokens_mode_prints_tokens_in_source_order(tmp_path, capsys):
+    path = read_temp(tmp_path, "in.html", "<p>Hi</p>")
+    assert main([path, "--tokens"]) == 0
+    captured = capsys.readouterr()
+    assert captured.out == "OPEN p\nTEXT 'Hi'\nCLOSE p\n"
+    assert captured.err == ""
+
+
+def test_tokens_mode_preserves_whitespace_only_text(tmp_path, capsys):
+    path = read_temp(tmp_path, "in.html", "<p>a</p>\n  <p>b</p>")
+    assert main([path, "--tokens"]) == 0
+    assert capsys.readouterr().out == (
+        "OPEN p\nTEXT 'a'\nCLOSE p\nTEXT '\\n  '\nOPEN p\nTEXT 'b'\nCLOSE p\n"
+    )
+
+
+def test_tokens_mode_requires_a_file(capsys):
+    assert main(["--tokens"]) == 1
+    captured = capsys.readouterr()
+    assert captured.err == f"{USAGE}\n"
+    assert captured.out == ""
+
+
+def test_tokens_mode_missing_file_reports_error(tmp_path, capsys):
+    path = str(tmp_path / "does-not-exist.html")
+    assert main([path, "--tokens"]) == 1
+    captured = capsys.readouterr()
+    assert captured.err == f"Cannot open file: {path}\n"
+    assert captured.out == ""
