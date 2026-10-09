@@ -42,29 +42,39 @@ def test_empty_file_is_valid(tmp_path, capsys):
 
 def test_missing_file_reports_error(tmp_path, capsys):
     path = str(tmp_path / "does-not-exist.html")
-    assert main([path]) != 0
-    assert f"Cannot open file: {path}" in capsys.readouterr().err
+    assert main([path]) == 1
+    captured = capsys.readouterr()
+    assert captured.err == f"Cannot open file: {path}\n"
+    assert captured.out == ""
 
 
 def test_directory_reports_error(tmp_path, capsys):
-    assert main([str(tmp_path)]) != 0
-    assert f"Cannot open file: {tmp_path}" in capsys.readouterr().err
+    assert main([str(tmp_path)]) == 1
+    captured = capsys.readouterr()
+    assert captured.err == f"Cannot open file: {tmp_path}\n"
+    assert captured.out == ""
 
 
 def test_no_arguments_prints_usage(capsys):
-    assert main([]) != 0
-    assert USAGE in capsys.readouterr().err
+    assert main([]) == 1
+    captured = capsys.readouterr()
+    assert captured.err == f"{USAGE}\n"
+    assert captured.out == ""
 
 
 def test_too_many_arguments_prints_usage(tmp_path, capsys):
     path = read_temp(tmp_path, "in.html", "x")
-    assert main([path, "extra"]) != 0
-    assert USAGE in capsys.readouterr().err
+    assert main([path, "extra"]) == 1
+    captured = capsys.readouterr()
+    assert captured.err == f"{USAGE}\n"
+    assert captured.out == ""
 
 
 def test_unknown_flag_prints_usage(capsys):
-    assert main(["--bogus"]) != 0
-    assert USAGE in capsys.readouterr().err
+    assert main(["--bogus"]) == 1
+    captured = capsys.readouterr()
+    assert captured.err == f"{USAGE}\n"
+    assert captured.out == ""
 
 
 def test_module_invocation_prints_sample():
