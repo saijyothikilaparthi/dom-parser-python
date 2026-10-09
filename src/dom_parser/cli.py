@@ -17,7 +17,7 @@ def read_file(path: str) -> str | None:
 def main(argv: list[str]) -> int:
     if len(argv) != 1 or argv[0].startswith("-"):
         print(USAGE, file=sys.stderr)
-        return 2
+        return 1
 
     contents = read_file(argv[0])
     if contents is None:
