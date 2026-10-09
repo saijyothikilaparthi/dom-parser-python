@@ -1,0 +1,1 @@
+Review my completed Python HTML parser project against the assignment's Git and Entire requirements. Compare three meaningful commits using Git history and the available Entire context. Explain what Git records versus what Entire records, and identify any missing evidence or documentation. Inspect the current state only. Do not modify files, commit, or push.
