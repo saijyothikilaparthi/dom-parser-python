@@ -1,0 +1,20 @@
+Implement Phase 2 — HTML tokenization — in the Python parser.
+
+Before coding:
+- Inspect the existing project structure and Phase 1 implementation.
+- Explain briefly how you will represent the three token kinds: opening tag, closing tag, and text.
+- Keep Phase 1 behavior working.
+
+Requirements:
+1. Split the input into a sequence of opening-tag, closing-tag, and text tokens.
+2. Preserve the source order of all tokens.
+3. Preserve whitespace-only text tokens for now; do not discard them.
+4. For this phase, print each token's kind and content, one token per line, so the tokenization can be inspected.
+5. Handle nested tags, sibling tags, and text before, between, and after tags.
+6. Add focused unit tests for tokenization, including nested.html-style content and whitespace-only text.
+7. Run the complete test suite.
+8. Do not build a DOM, parse attributes, validate nesting, or implement query flags yet.
+9. Do not modify unrelated files.
+10. Do not commit or push.
+
+Report the files changed, the token format, and the test results.
